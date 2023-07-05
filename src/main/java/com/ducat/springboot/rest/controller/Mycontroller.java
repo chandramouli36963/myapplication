@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,15 +25,18 @@ public class Mycontroller {
 	@Autowired
 	Myservice service;
 	
-	@RequestMapping(value= "/employee/all", method= RequestMethod.GET)
+	@GetMapping("/employee/all")
 	@Operation(summary = "This service is to get all employee details.")
+	public List<Employee> getAllEmployee(){
+		return service.getEmployees();
+	}
 	
 	public List<Employee> getEmployees() {
 		System.out.println(this.getClass().getSimpleName() + " - Get all employees service is invoked.");
 		return service.getEmployees();
 	}
 
-	@RequestMapping(value= "/employee/{id}", method= RequestMethod.GET)
+	@GetMapping("/employee/{id}")
 	@Operation(summary = "This service is to get all employee details by Id.")
 	public Employee getEmployeeById(@PathVariable int id) throws Exception {
 		System.out.println(this.getClass().getSimpleName() + " - Get employee details by id is invoked.");
@@ -43,7 +48,7 @@ public class Mycontroller {
 		return emp.get();
 	}
 
-	@RequestMapping(value= "/employee/add", method= RequestMethod.POST)
+	@PostMapping("/employee/add")
 	@Operation(summary = "This service is to create new employee details.")
 	public Employee createEmployee(@RequestBody Employee newemp) {
 		System.out.println(this.getClass().getSimpleName() + " - Create new employee method is invoked.");
